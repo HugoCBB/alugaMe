@@ -1,0 +1,70 @@
+basePath: /api
+definitions:
+  domain.LoginUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.RegisterUserInput:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API do backend
+  title: AlugameAPI
+  version: "1.0"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Dados do usuário
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RegisterUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Cria um novo usuario
+      tags:
+      - users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Dados do usuário
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/domain.LoginUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Faz o login e retorna o token
+      tags:
+      - users
+swagger: "2.0"

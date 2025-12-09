@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/hugocbb/alugueMe/internal/domain"
 	"gorm.io/driver/postgres"
@@ -15,7 +16,7 @@ var (
 )
 
 func ConnectDatabase() {
-	dsn := "host=localhost user=root password=root dbname=alugaMeDB port=5432 sslmode=disable"
+	dsn := os.Getenv("DB")
 
 	DB, err = gorm.Open(postgres.Open(dsn))
 	if err != nil {
