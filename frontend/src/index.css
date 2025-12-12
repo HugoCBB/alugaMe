@@ -1,3 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-coffee-dark: #2C1810;
+  --color-coffee-medium: #A68B7C;
+  --color-coffee-light: #E6DCC3;
+  --color-cream: #F9F5F1;
+  --color-accent: #C08552;
+
+  --font-sans: "Inter", sans-serif;
+}
