@@ -1,0 +1,30 @@
+services:
+  db:
+    container_name: alugaMeDB
+    image: postgres:17
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=alugaMeDB
+    ports:
+      - "5432:5432"
+
+  frontend:
+    container_name: alugaMeFront
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports: 
+      - "3000:80"
+    depends_on:
+      - db
+
+  backend:
+    container_name: backendAlugaMe
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db

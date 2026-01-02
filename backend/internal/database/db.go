@@ -17,7 +17,9 @@ var (
 
 func ConnectDatabase() {
 	dsn := os.Getenv("DB")
-
+	if dsn == "" {
+		dsn = "host=db user=root password=root dbname=alugaMeDB port=5432 sslmode=disable"
+	}
 	DB, err = gorm.Open(postgres.Open(dsn))
 	if err != nil {
 		log.Fatal("Erro ao se conectar ao banco de dados")
