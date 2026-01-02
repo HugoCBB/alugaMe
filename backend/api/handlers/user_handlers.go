@@ -17,11 +17,11 @@ type UserHandler struct {
 // @Tags users
 // @Accept json
 // @Produce json
-// @Param payload body domain.RegisterUserInput true "Dados do usuário"
+// @Param payload body usecases.RegisterUserInput true "Dados do usuário"
 // @Success 201 {object} map[string]interface{}
 // @Router /users [post]
 func (u *UserHandler) Register(c *gin.Context) {
-	var payload *domain.User
+	var payload *usecases.RegisterUserInput
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, err)
 		return
@@ -46,7 +46,7 @@ func (u *UserHandler) Register(c *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
-// @Param payload body domain.LoginUserInput true "Dados do usuário"
+// @Param payload body usecases.LoginUserInput true "Dados do usuário"
 // @Success 201 {object} map[string]interface{}
 // @Router /users/login [post]
 func (u *UserHandler) Login(c *gin.Context) {

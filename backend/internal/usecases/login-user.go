@@ -9,22 +9,27 @@ import (
 	"github.com/hugocbb/alugueMe/pkg"
 )
 
-type LoginUser struct {
-	repo repository.UserRepository
-}
+type (
+	LoginUser struct {
+		repo repository.UserRepository
+	}
+	LoginUserInput struct {
+		Id       uint   `json:"id"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+)
 
 func NewLoginUser(r repository.UserRepository) *LoginUser {
 	return &LoginUser{repo: r}
+
 }
 
 func (r LoginUser) Execute(ctx context.Context, payload *domain.User) (string, error) {
-	user, err := r.repo.GetUserByEmail(ctx, payload.Email)
+	var user LoginUserInput
+	err := r.repo.GetUserByEmail(ctx, payload.Email)
 	if err != nil {
 		return "", err
-	}
-
-	if user == nil {
-		return "", fmt.Errorf("Usuario nao encontrado")
 	}
 
 	if err := pkg.CompareHash(user.Password, payload.Password); err != nil {

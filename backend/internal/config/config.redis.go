@@ -1,0 +1,23 @@
+package config
+
+import (
+	"context"
+	"log"
+
+	"github.com/redis/go-redis/v9"
+)
+
+func NewRedisClient(ctx context.Context) *redis.Client {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	_, err := rdb.Ping(ctx).Result()
+	if err != nil {
+		log.Fatal("Erro ao se conectar no Redis")
+	}
+
+	return rdb
+}

@@ -1,9 +1,11 @@
 package api
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hugocbb/alugueMe/api/middleware"
 	_ "github.com/hugocbb/alugueMe/docs"
 	"github.com/hugocbb/alugueMe/internal/config"
 	"github.com/hugocbb/alugueMe/internal/database"
@@ -13,9 +15,10 @@ import (
 )
 
 func HandleRequest() {
-
+	ctx := context.Background()
 	r := gin.Default()
 	deps := config.SetupDependecy(database.DB)
+	rdb := config.NewRedisClient(ctx)
 
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/", func(ctx *gin.Context) {
@@ -26,7 +29,7 @@ func HandleRequest() {
 
 	api := r.Group("/api")
 	{
-		user := api.Group("/users")
+		user := api.Group("/users", middleware.RateLimitMiddleware(rdb))
 		{
 			user.POST("/", deps.UserHandler.Register)
 			user.POST("/login", deps.UserHandler.Login)
